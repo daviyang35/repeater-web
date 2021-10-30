@@ -2,6 +2,12 @@
 
 基于 React + TypeScript + Ant-Design
 
+## 更改的JVM-Sandbox-Repeater 仓库
+
+[JVM-Sandbox-Repeater](https://github.com/daviyang35/jvm-sandbox-repeater)
+
+主要是将请求响应为JSON。
+
 ## TODO
 
 - [x] 流量管理-列表
