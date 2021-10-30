@@ -28,3 +28,14 @@
 ---
 
 - [ ] 更换 react-app-rewired 为 craco
+
+## Preview
+
+![模块管理](./screenshot/模块管理.png)
+
+![流量管理](./screenshot/流量管理.png)
+
+![流量管理-详情](./screenshot/流量管理-详情.png)
+
+![配置管理](./screenshot/配置管理.png)
+
