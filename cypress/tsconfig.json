@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "noEmit": true,
+    "types": [
+      "cypress",
+      "@testing-library/cypress"
+    ],
+    "target": "ES5",
+    "lib": [
+      "ES5",
+      "DOM"
+    ],
+    "isolatedModules": false
+  },
+  "include": [
+    "**/*.spec.ts"
+  ]
+}

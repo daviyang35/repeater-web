@@ -1,0 +1,38 @@
+.sider {
+  background: #333857;
+  position: relative;
+
+  .collapsedImg {
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    cursor: pointer;
+    width: 16px;
+    height: 36px;
+    margin-top: -18px;
+    background: url(./../../../assets/img/collapsed.png) no-repeat;
+
+    &:before {
+      position: absolute;
+      content: '';
+      right: 5px;
+      top: 13px;
+      border: 6px solid transparent;
+      border-width: 5px 6px;
+      border-right-color: #ccc;
+    }
+
+    &.open {
+      &:before {
+        transform-origin: 10px center;
+        transform: rotate(-180deg);
+      }
+    }
+  }
+
+  :global {
+    .ant-menu-inline-collapsed {
+      width: 60px;
+    }
+  }
+}

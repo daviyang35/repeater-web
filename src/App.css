@@ -1,0 +1,7 @@
+.App {
+    text-align: center;
+}
+
+body .ant-image-preview-mask {
+    background: rgba(0, 0, 0, 0.8);
+}

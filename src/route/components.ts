@@ -1,0 +1,25 @@
+import Home from "@/pages/Home";
+
+// 模块管理
+import Module from "@/pages/Module";
+
+// 流量管理
+import Traffic from "@/pages/Traffic";
+import TrafficDetails from "@/pages/Traffic/TrafficDetails";
+
+// 配置管理
+import Manage from "@/pages/Manage/Manage";
+import SaveOrUpdate from "@/pages/Manage/SaveOrUpdate";
+
+// 关于我们
+import aboutUs from "@/pages/AboutUs";
+
+export {
+    Home,
+    aboutUs,
+    Module,
+    Traffic,
+    TrafficDetails,
+    Manage,
+    SaveOrUpdate,
+};
