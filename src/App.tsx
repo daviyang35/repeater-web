@@ -11,6 +11,14 @@ const Layouts = React.lazy(() => import("@/layouts"));
 const Login = React.lazy(() => import("@/pages/Login"));
 
 const App: React.FC = () => {
+    window.addEventListener("error", function (e) {
+        console.log("ooops inf loop", e);
+        if (e.message === "ResizeObserver loop limit exceeded") {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+        }
+    });
+
     return (
         <ConfigProvider locale={zh_CN}>
             <React.Suspense fallback={<PageLoading/>}>

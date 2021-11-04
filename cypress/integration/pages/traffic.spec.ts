@@ -6,25 +6,7 @@ describe("流量管理", function () {
         cy.intercept({
             method: "GET",
             url: "/online/**",
-        }, {
-            data: [{
-                "id": 15,
-                "gmtCreate": "2021-09-14 02:49:49",
-                "gmtRecord": "2021-09-14 02:49:49",
-                "appName": "todo",
-                "environment": "prod",
-                "host": "127.0.0.1",
-                "traceId": "127000000001163153018853610021ed",
-                "entranceDesc": "http://127.0.0.1:8080/todo",
-            },
-            ],
-            success: true,
-            message: null,
-            count: 14,
-            "totalPage": 2,
-            "pageSize": 10,
-            "pageIndex": 1,
-        }).as("fetchTraffic");
+        }, {fixture: "traffic_list.json"}).as("fetchTraffic");
     });
 
     it("Render Traffic Page", () => {
@@ -47,6 +29,5 @@ describe("流量管理", function () {
             expect(loc.hash).contains("id=127000000001163153018853610021ed");
         });
         cy.contains("基础信息");
-
     });
 });

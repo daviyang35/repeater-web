@@ -3,7 +3,7 @@ import {Button, Form, Input} from "antd";
 import styles from "./SaveOrUpdate.module.less";
 import {UnControlled as CodeMirror} from "react-codemirror2";
 import {useHistory} from "react-router-dom";
-import service from "@/pages/Manage/SaveOrUpdate/service";
+import service from "./service";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/material.css");

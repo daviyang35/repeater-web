@@ -8,8 +8,8 @@ import Traffic from "@/pages/Traffic";
 import TrafficDetails from "@/pages/Traffic/TrafficDetails";
 
 // 配置管理
-import Manage from "@/pages/Manage/Manage";
-import SaveOrUpdate from "@/pages/Manage/SaveOrUpdate";
+import Configuration from "@/pages/Configuration/Configuration";
+import SaveOrUpdate from "@/pages/Configuration/SaveOrUpdate";
 
 // 关于我们
 import aboutUs from "@/pages/AboutUs";
@@ -20,6 +20,6 @@ export {
     Module,
     Traffic,
     TrafficDetails,
-    Manage,
+    Configuration,
     SaveOrUpdate,
 };

@@ -23,9 +23,11 @@ export const pushConfig = (appName: string, environment: string): Promise<any> =
     }));
 };
 
-export default {
+const service = {
     getModuleConfig,
     pushConfig,
 };
+
+export default service;
 
 

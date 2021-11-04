@@ -1,4 +1,9 @@
 import React from "react";
+import {render, screen} from "@testing-library/react";
+import Configuration from "./Configuration";
+import userEvent from "@testing-library/user-event";
+
+jest.mock("./service");
 
 const dataSource: any = [{
     id: 1,
@@ -50,6 +55,12 @@ const dataSource: any = [{
 ];
 
 describe("配置管理页", function () {
-    it("filter", () => {
+    it("搜索条件查询", () => {
+        render(<Configuration/>);
+        userEvent.type(screen.getByPlaceholderText("请输入应用名"), "app");
+        userEvent.type(screen.getByPlaceholderText("请输入环境名"), "developer");
+        userEvent.click(screen.getByAltText("查 询"));
+
+
     });
 });

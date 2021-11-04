@@ -36,8 +36,9 @@ const reload = (appName: string, ip: string): Promise<any> => {
     }));
 };
 
-export default {
+const service = {
     getModule,
     frozen,
     reload,
 };
+export default service;

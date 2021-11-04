@@ -13,6 +13,9 @@ const getModuleConfig = (appName: string, environment: string): Promise<any> => 
     }));
 };
 
-export default {
+const service = {
     getModuleConfig,
+
 };
+
+export default service;

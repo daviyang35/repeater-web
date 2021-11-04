@@ -1,0 +1,57 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "gmtCreate": "2021-09-14 01:37:18",
+      "gmtModified": "2021-09-14 02:49:26",
+      "appName": "todo",
+      "environment": "prod",
+      "configModel": {
+        "useTtl": true,
+        "degrade": false,
+        "exceptionThreshold": 1000,
+        "sampleRate": 10000,
+        "pluginsPath": null,
+        "httpEntrancePatterns": [
+          "^/todo.*$"
+        ],
+        "javaEntranceBehaviors": [
+          {
+            "classPattern": "com.example.todo.*",
+            "methodPatterns": [
+              "*"
+            ],
+            "includeSubClasses": false
+          }
+        ],
+        "javaSubInvokeBehaviors": [
+          {
+            "classPattern": "com.example.todo.*",
+            "methodPatterns": [
+              "*"
+            ],
+            "includeSubClasses": false
+          }
+        ],
+        "pluginIdentities": [
+          "http",
+          "java-entrance",
+          "java-subInvoke",
+          "hibernate",
+          "spring-data-jpa"
+        ],
+        "repeatIdentities": [
+          "java",
+          "http"
+        ]
+      },
+      "configPreview": "{sampleRate=10000, plugin=[http, java-entrance, java-subInvoke, hibernate, spring-data-jpa]}"
+    }
+  ],
+  "success": true,
+  "message": null,
+  "count": 1,
+  "totalPage": 1,
+  "pageSize": 10,
+  "pageIndex": 1
+}
