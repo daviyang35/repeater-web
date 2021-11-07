@@ -47,7 +47,6 @@ describe("在线流量", () => {
 
         await waitFor(() => {
             expect(screen.getByText("网络错误，请稍后再试。")).toBeInTheDocument();
-            screen.debug();
         });
     });
 

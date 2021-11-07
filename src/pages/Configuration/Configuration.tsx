@@ -22,9 +22,13 @@ const Configuration: React.FC = () => {
 
     useEffect(() => {
         const fetch = async () => {
-            const resp = await service.getModuleConfig(queryParam);
-            if (resp) {
-                setDataSource(resp.data || []);
+            try {
+                const resp = await service.getModuleConfig(queryParam);
+                if (resp) {
+                    setDataSource(resp.data || []);
+                }
+            } catch (e) {
+                setDataSource([]);
             }
         };
         void fetch();

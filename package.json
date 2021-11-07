@@ -35,7 +35,8 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "<rootDir>/src/**/*.{ts,tsx}"
+      "/src/**/*.{ts,tsx}",
+      "!**/node_modules/**"
     ],
     "moduleNameMapper": {
       "@/(.*)$": "<rootDir>/src/$1"

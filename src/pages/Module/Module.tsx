@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import styles from "./Module.module.less";
-import service from "./service";
+import service, {ModuleParams} from "./service";
 import {Button, Form, Input, Modal, Space, Table} from "antd";
 import {ColumnsType} from "antd/es/table";
 import {TablePaginationConfig} from "antd/lib/table/interface";
 
-const frozen = async (appName: string, ip: string) => {
+const doFrozen = async (appName: string, ip: string) => {
     const resp = await service.frozen(appName, ip);
     Modal.error({
         title: "结果",
@@ -13,9 +13,9 @@ const frozen = async (appName: string, ip: string) => {
     });
 };
 
-const reload = async (appName: string, ip: string) => {
+const doReload = async (appName: string, ip: string) => {
     const resp = await service.reload(appName, ip);
-    const modal = Modal.info({
+    Modal.error({
         content: resp.message,
         title: "结果",
     });
@@ -61,10 +61,10 @@ const columns: ColumnsType<any> = [
         render: (_, record) => {
             return (<Space className={styles.ActionPanel}>
                 <Button type={"primary"} size="small" onClick={() => {
-                    void frozen(record.appName, record.ip);
+                    void doFrozen(record.appName, record.ip);
                 }}>冻结</Button>
                 <Button type={"primary"} size="small" danger onClick={() => {
-                    void reload(record.appName, record.ip);
+                    void doReload(record.appName, record.ip);
                 }}>刷新</Button>
             </Space>);
         },
@@ -72,42 +72,37 @@ const columns: ColumnsType<any> = [
 ];
 
 const Module: React.FC = () => {
+    const [queryParam, setQueryParam] = useState<ModuleParams>({page: 1, size: 10});
     const [dataSources, setDataSources] = useState([]);
-    const [pagination, setPagination] = useState<{ total: number, pageSize: number, current: number }>({
-        current: 1,
-        pageSize: 10,
-        total: 0,
-    });
+    const [pagination, setPagination] = useState<{ total: number, page: number }>({page: 0, total: 0});
 
     useEffect(() => {
         const getModule = async () => {
-            const resp = await service.getModule(pagination.current, pagination.pageSize);
+            const resp = await service.getModule(queryParam);
             setDataSources(resp.data);
             setPagination({
-                current: resp.pageIndex,
-                pageSize: resp.pageSize,
+                page: resp.pageIndex,
                 total: resp.count,
             });
         };
 
         void getModule();
-    }, []);
-    const paginationConfig: TablePaginationConfig = {
+    }, [queryParam]);
+
+    const paginationProps: TablePaginationConfig = {
         total: pagination.total,
-        current: pagination.current,
-        pageSize: pagination.pageSize,
+        current: pagination.page,
+        pageSize: queryParam.size,
         showTotal: (total) => `共 ${total} 条`,
         showQuickJumper: true,
-        onChange: (page, pageSize) => setPagination({
-            current: page,
-            pageSize: pageSize as number,
-            total: pagination.total,
-        }),
+        onChange: (page, pageSize) => setQueryParam({...queryParam, size: pageSize || 1, page}),
     };
+
     return (
         <div className={styles.ModulePanel}>
             <Form className={styles.SearchForm} layout="inline"
                   onFinish={(values) => {
+                      setQueryParam({...queryParam, ...values});
                   }}>
                 <Form.Item label="应用名" name="appName">
                     <Input autoComplete="off" placeholder="请输入应用名"/>
@@ -120,7 +115,7 @@ const Module: React.FC = () => {
                 </Form.Item>
             </Form>
             <Table size="small" rowKey={(record) => record.id} dataSource={dataSources} columns={columns}
-                   pagination={paginationConfig}/>
+                   pagination={paginationProps}/>
         </div>
     );
 };

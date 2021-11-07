@@ -51,8 +51,12 @@ const TrafficDetails = () => {
 
     useEffect(() => {
         const fetch = async () => {
-            const resp = await getTrafficDetails(id as string, appName as string);
-            setRecord(resp.data);
+            if (id && appName) {
+                const resp = await getTrafficDetails(id as string, appName as string);
+                setRecord(resp.data);
+            } else {
+                console.log("因为路由处理Bug，fetch 被跳过");
+            }
         };
 
         void fetch();

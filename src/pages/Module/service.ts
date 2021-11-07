@@ -1,15 +1,15 @@
 import request from "@/utils/request";
 
-const getModule = (page: number = 1, size: number = 10): Promise<any> => {
-    return new Promise(((resolve, reject) => {
-        request.get("/module/", {
-            page: page, size: size,
-        }).then(response => {
-            resolve(response);
-        }).catch(err => {
-            reject(err);
-        });
-    }));
+export interface ModuleParams extends Pagination {
+    appName?: string;
+    ip?: string;
+}
+
+const getModule = (params: ModuleParams): Promise<any> => {
+    return new Promise(((resolve, reject) =>
+        request.get("/module/", params)
+            .then(response => resolve(response))
+            .catch(err => reject(err))));
 };
 
 const frozen = (appName: string, ip: string): Promise<any> => {
