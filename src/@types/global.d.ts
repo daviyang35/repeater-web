@@ -7,6 +7,11 @@ declare global {
     }
 }
 
+declare type Pagination = {
+    page: number,
+    size: number
+}
+
 declare type PaginatedResponse<T> = {
     count?: number;
     totalPage?: number;
@@ -14,3 +19,6 @@ declare type PaginatedResponse<T> = {
     pageIndex?: number;
     data?: T
 }
+
+
+

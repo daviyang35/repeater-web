@@ -1,8 +1,13 @@
 import request from "@/utils/request";
 
-export const getModuleConfig = (): Promise<any> => {
+export interface ConfigParams extends Pagination {
+    appName?: string;
+    environment?: string;
+}
+
+const getModuleConfig = (params: ConfigParams): Promise<any> => {
     return new Promise(((resolve, reject) => {
-        request.get("/config/").then(response => {
+        request.get("/config/", params).then(response => {
             resolve(response);
         }).catch(err => {
             reject(err);
@@ -10,7 +15,7 @@ export const getModuleConfig = (): Promise<any> => {
     }));
 };
 
-export const pushConfig = (appName: string, environment: string): Promise<any> => {
+const pushConfig = (appName: string, environment: string): Promise<any> => {
     return new Promise(((resolve, reject) => {
         request.post("/config/push", {
             appName: appName,

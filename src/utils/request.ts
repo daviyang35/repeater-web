@@ -12,7 +12,7 @@ export class Request {
     };
 
     // axios 实例
-    private instance: AxiosInstance = axios.create(this.baseConfig);
+    public instance: AxiosInstance = axios.create(this.baseConfig);
 
 
     public constructor() {

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import service from "./service";
+import service, {ConfigParams} from "./service";
 import styles from "./Configuration.module.less";
 import {Button, Form, Input, message, Space, Table} from "antd";
 import {ColumnsType} from "antd/es/table";
@@ -17,14 +17,18 @@ export interface Module {
 }
 
 const Configuration: React.FC = () => {
+    const [queryParam, setQueryParam] = useState<ConfigParams>({page: 1, size: 10});
     const [dataSource, setDataSource] = useState([]);
+
     useEffect(() => {
         const fetch = async () => {
-            const resp = await service.getModuleConfig();
-            setDataSource(resp.data);
+            const resp = await service.getModuleConfig(queryParam);
+            if (resp) {
+                setDataSource(resp.data || []);
+            }
         };
         void fetch();
-    }, []);
+    }, [queryParam]);
 
     const history = useHistory();
     const columns: ColumnsType<Module> = [
@@ -59,7 +63,6 @@ const Configuration: React.FC = () => {
                     }}>详情</Button>
                     <Button type={"ghost"} size="small" danger onClick={() => {
                         void (async (appName: string, environment: string) => {
-                            console.log("推送", appName, environment);
                             const resp = await service.pushConfig(appName, environment);
                             message.info(resp.message);
                         })(record.appName, record.environment);
@@ -70,7 +73,7 @@ const Configuration: React.FC = () => {
     ];
 
     const onSearchClicked = (values: any) => {
-        console.log(values);
+        setQueryParam({...queryParam, ...values});
     };
 
     return (

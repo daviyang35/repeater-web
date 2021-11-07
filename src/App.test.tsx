@@ -27,7 +27,7 @@ describe("路由", () => {
 
         renderWithRouter(<App/>, {route: "/"});
         await waitFor(() => {
-            expect(screen.getByTitle("组织机构管理")).toBeInTheDocument();
+            expect(screen.getByTitle("关于我们")).toBeInTheDocument();
         });
     });
 
