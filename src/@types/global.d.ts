@@ -13,6 +13,16 @@ declare type Pagination = {
     size: number
 }
 
+declare type PageResult<T> = {
+    success: boolean,
+    message?: string,
+    count?: number,
+    totalPage?: number,
+    pageSize?: number,
+    pageIndex?: number,
+    data?: T[],
+}
+
 declare type PaginatedResponse<T> = {
     count?: number;
     totalPage?: number;

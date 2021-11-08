@@ -8,8 +8,10 @@ import Traffic from "@/pages/Traffic";
 import TrafficDetails from "@/pages/Traffic/TrafficDetails";
 
 // 配置管理
-import Configuration from "@/pages/Configuration/Configuration";
+import Configuration from "@/pages/Configuration";
 import SaveOrUpdate from "@/pages/Configuration/SaveOrUpdate";
+
+import Replay from "@/pages/Replay";
 
 // 测试页
 import Regress from "@/pages/Regress";
@@ -26,4 +28,5 @@ export {
     Configuration,
     SaveOrUpdate,
     Regress,
+    Replay,
 };
