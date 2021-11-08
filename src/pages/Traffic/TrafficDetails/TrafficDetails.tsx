@@ -3,31 +3,7 @@ import {Button, Descriptions, Divider, Radio} from "antd";
 import styles from "./TrafficDetails.module.less";
 import {useHistory} from "react-router-dom";
 import {getTrafficDetails} from "@/pages/Traffic/TrafficDetails/service";
-import {UnControlled as CodeMirror} from "react-codemirror2";
-
-const jsonlint = require("jsonlint-mod");
-// @ts-ignore
-window.jsonlint = jsonlint;
-
-require("codemirror/lib/codemirror.css");
-require("codemirror/theme/material.css");
-require("codemirror/theme/neat.css");
-require("codemirror/mode/javascript/javascript");
-
-require("codemirror/addon/selection/active-line");
-
-require("codemirror/addon/fold/foldgutter.js");
-require("codemirror/addon/fold/foldgutter.css");
-require("codemirror/addon/fold/foldcode.js");
-require("codemirror/addon/fold/brace-fold.js");
-require("codemirror/addon/fold/comment-fold.js");
-require("codemirror/addon/edit/closebrackets");
-
-require("codemirror/addon/lint/lint");
-require("codemirror/addon/lint/lint.css");
-require("codemirror/addon/lint/json-lint");
-
-require("@/assets/css/codemirror.css");
+import CodeBlock from "@/components/CodeBlock/CodeBlock";
 
 type Details = {
     id?: number;
@@ -99,28 +75,7 @@ const TrafficDetails = () => {
                     <Radio.Button value="response">返回结果</Radio.Button>
                     <Radio.Button value="subInvocations">子调用详情</Radio.Button>
                 </Radio.Group>
-                <CodeMirror
-                    value={codeBlock}
-                    options={{
-                        mode: {
-                            name: "javascript",
-                            json: true,
-                        },
-                        theme: "material",
-                        lineNumbers: true,
-                        lineWrapping: true,
-                        indentWithTabs: false,
-                        tabSize: 2,
-                        readonly: "nocursor",
-                        autofocus: true,//自动获取焦点
-                        styleActiveLine: true,//光标代码高亮
-                        foldGutter: true,
-                        gutters: ["CodeMirror-lint-markers", "CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-                        autoCloseBrackets: true,
-                        matchBrackets: true,
-                        lint: true,
-                    }}
-                />
+                <CodeBlock value={codeBlock}/>
             </div>
         </div>
     );
