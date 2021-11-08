@@ -10,6 +10,7 @@
     "classnames": "^2.3.1",
     "codemirror": "^5.63.3",
     "copy-to-clipboard": "^3.3.1",
+    "jsonlint-mod": "^1.7.6",
     "qs": "^6.10.1",
     "react": "^17.0.2",
     "react-codemirror2": "^7.2.1",
@@ -20,8 +21,8 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development react-app-rewired start",
-    "build": "cross-env BUILD_PATH='./dist' NODE_ENV=test react-app-rewired build",
-    "build:production": "cross-env BUILD_PATH='./dist' NODE_ENV=production react-app-rewired build",
+    "build": "cross-env NODE_ENV=test react-app-rewired build",
+    "build:production": "cross-env NODE_ENV=production react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "cypress": "cypress open",
@@ -35,8 +36,7 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "/src/**/*.{ts,tsx}",
-      "!**/node_modules/**"
+      "/src/**/*.{ts,tsx}"
     ],
     "moduleNameMapper": {
       "@/(.*)$": "<rootDir>/src/$1"

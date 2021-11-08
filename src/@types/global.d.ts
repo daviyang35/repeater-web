@@ -4,6 +4,7 @@
 declare global {
     interface Window {
         ActiveXObject: any;
+        jsonlint: any;
     }
 }
 

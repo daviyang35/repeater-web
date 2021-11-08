@@ -8,6 +8,7 @@ const AboutUs: FC = () => {
         <div className={styles.aboutBox}>
             <div className={styles.title}>
                 <p>关于</p>
+                daviyang35&lt;at&gt;gmail.com
             </div>
         </div>
     );

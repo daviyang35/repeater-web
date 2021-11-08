@@ -11,6 +11,9 @@ import TrafficDetails from "@/pages/Traffic/TrafficDetails";
 import Configuration from "@/pages/Configuration/Configuration";
 import SaveOrUpdate from "@/pages/Configuration/SaveOrUpdate";
 
+// 测试页
+import Regress from "@/pages/Regress";
+
 // 关于我们
 import aboutUs from "@/pages/AboutUs";
 
@@ -22,4 +25,5 @@ export {
     TrafficDetails,
     Configuration,
     SaveOrUpdate,
+    Regress,
 };

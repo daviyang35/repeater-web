@@ -10,13 +10,13 @@ const CONFIG_DEV = {
 
 // 测试配置
 const CONFIG_TEST = {
-    domain: "/api",
+    domain: "/",
     needLogin: true,
 };
 
 // 生产配置
 const CONFIG_PRO = {
-    domain: "/api",
+    domain: "/",
     needLogin: true,
 };
 

@@ -5,6 +5,10 @@ import {UnControlled as CodeMirror} from "react-codemirror2";
 import {useHistory} from "react-router-dom";
 import service from "./service";
 
+const jsonlint = require("jsonlint-mod");
+// @ts-ignore
+window.jsonlint = jsonlint;
+
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/material.css");
 require("codemirror/theme/neat.css");
@@ -34,13 +38,14 @@ const SaveOrUpdate: React.FC = () => {
 
     useEffect(() => {
         const fetch = async () => {
-            const resp = await service.getModuleConfig(appName as string, environment as string);
-            setConfig(JSON.stringify(resp.data.configModel, null, 2));
+            if (appName && environment) {
+                const resp = await service.getModuleConfig(appName as string, environment as string);
+                setConfig(JSON.stringify(resp.data.configModel, null, 2));
+            }
         };
 
         void fetch();
     }, [appName, environment]);
-
 
     return (
         <div className={styles.EditorPanel}>

@@ -2385,6 +2385,11 @@
   resolved "https://registry.npmmirror.com/@xtuc/long/download/@xtuc/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha1-0pHGpOl5ibXGHZrPOWrk/hM6cY0=
 
+JSV@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.npmmirror.com/JSV/download/JSV-4.0.2.tgz#d077f6825571f82132f9dffaed587b4029feff57"
+  integrity sha1-0Hf2glVx+CEy+d/67Vh7QCn+/1c=
+
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
   resolved "https://registry.npmmirror.com/abab/download/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
@@ -7565,6 +7570,15 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+jsonlint-mod@^1.7.6:
+  version "1.7.6"
+  resolved "https://registry.npmmirror.com/jsonlint-mod/download/jsonlint-mod-1.7.6.tgz#6f1c4c51fdb5c2002489a0665e3e19a316743319"
+  integrity sha1-bxxMUf21wgAkiaBmXj4ZoxZ0Mxk=
+  dependencies:
+    JSV "^4.0.2"
+    chalk "^2.4.2"
+    underscore "^1.9.1"
+
 jsprim@^1.2.2:
   version "1.4.1"
   resolved "https://registry.npmmirror.com/jsprim/download/jsprim-1.4.1.tgz#313e66bc1e5cc06e438bc1b7499c2e5c56acb6a2"
@@ -12145,6 +12159,11 @@ unbox-primitive@^1.0.1:
     has-bigints "^1.0.1"
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
+
+underscore@^1.9.1:
+  version "1.13.1"
+  resolved "https://registry.npmmirror.com/underscore/download/underscore-1.13.1.tgz?cache=0&sync_timestamp=1632753488332&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Funderscore%2Fdownload%2Funderscore-1.13.1.tgz#0c1c6bd2df54b6b69f2314066d65b6cde6fcf9d1"
+  integrity sha1-DBxr0t9UtrafIxQGbWW2zeb8+dE=
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"

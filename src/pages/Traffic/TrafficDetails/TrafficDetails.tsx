@@ -5,6 +5,10 @@ import {useHistory} from "react-router-dom";
 import {getTrafficDetails} from "@/pages/Traffic/TrafficDetails/service";
 import {UnControlled as CodeMirror} from "react-codemirror2";
 
+const jsonlint = require("jsonlint-mod");
+// @ts-ignore
+window.jsonlint = jsonlint;
+
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/material.css");
 require("codemirror/theme/neat.css");

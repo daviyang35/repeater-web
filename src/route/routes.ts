@@ -1,4 +1,4 @@
-import {aboutUs, Configuration, Home, Module, SaveOrUpdate, Traffic, TrafficDetails} from "./components";
+import {aboutUs, Configuration, Home, Module, Regress, SaveOrUpdate, Traffic, TrafficDetails} from "./components";
 
 import {AlertOutlined, DesktopOutlined, HeartOutlined} from "@ant-design/icons";
 import {RouteComponentProps} from "react-router-dom";
@@ -72,6 +72,13 @@ let menus: Menu[] = [
         key: "module",
         component: Module,
         path: "/module",
+        icon: HeartOutlined,
+        static: true,
+    }, {
+        title: "测试页面",
+        key: "test",
+        component: Regress,
+        path: "/test",
         icon: HeartOutlined,
         static: true,
     },
