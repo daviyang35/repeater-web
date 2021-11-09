@@ -30,7 +30,7 @@ const columns: ColumnsType<ReplayVO> = [
         dataIndex: "status",
         key: "status",
         render: (_, record) => {
-            let label = "";
+            let label = "未知";
             switch (record.status) {
                 case "PROCESSING":
                     label = "执行中";
@@ -52,8 +52,9 @@ const columns: ColumnsType<ReplayVO> = [
         width: 70,
         render: (_, record) => {
             return (<div className={styles.ActionPanel}>
-                <Button type={"primary"} size="small" disabled={record.status === "PROCESSING"} onClick={() => {
-                }}>详情</Button>
+                <Button type={"primary"} size="small" ghost={record.status === "PROCESSING"}
+                        onClick={() => {
+                        }}>详情</Button>
             </div>);
         },
     },

@@ -82,7 +82,7 @@ const Configuration: React.FC = () => {
 
     return (
         <div className={styles.ManagePanel}>
-            <Button className={styles.NewButton} htmlType="submit" type="primary">新建配置</Button>
+
 
             <Form className={styles.SearchPanel} layout="inline"
                   onFinish={(values) => onSearchClicked(values)}>
@@ -95,6 +95,9 @@ const Configuration: React.FC = () => {
                 <Form.Item>
                     <Button htmlType="submit" type="primary">查询</Button>
                 </Form.Item>
+                <Button type="primary" onClick={() => {
+
+                }}>新建配置</Button>
             </Form>
 
             <Table size="small" rowKey={record => record.id} dataSource={dataSource} columns={columns}/>
