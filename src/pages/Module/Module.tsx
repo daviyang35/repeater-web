@@ -144,8 +144,8 @@ const Module: React.FC = () => {
                 <Form.Item>
                     <Button htmlType="submit" type="primary">查询</Button>
                 </Form.Item>
-                <Form.Item>
-                    <Button type={"primary"} className={styles.InstallButton} onClick={() => {
+                <Form.Item className={styles.InstallButton}>
+                    <Button type={"primary"} onClick={() => {
                         setShowInstallModal(true);
                     }}>安装模块</Button>
                 </Form.Item>

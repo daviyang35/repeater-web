@@ -63,7 +63,7 @@ const Configuration: React.FC = () => {
             render: (_: any, record: Module) => {
                 return (<Space className={styles.ActionPanel}>
                     <Button type={"primary"} size="small" onClick={() => {
-                        history.push("/configurationDetail?appName=" + record.appName + "&environment=" + record.environment);
+                        history.push("/configurationDetail?mode=preview&appName=" + record.appName + "&environment=" + record.environment);
                     }}>详情</Button>
                     <Button type={"ghost"} size="small" danger onClick={() => {
                         void (async (appName: string, environment: string) => {
@@ -82,8 +82,6 @@ const Configuration: React.FC = () => {
 
     return (
         <div className={styles.ManagePanel}>
-
-
             <Form className={styles.SearchPanel} layout="inline"
                   onFinish={(values) => onSearchClicked(values)}>
                 <Form.Item label="应用名" name="appName">
@@ -96,7 +94,7 @@ const Configuration: React.FC = () => {
                     <Button htmlType="submit" type="primary">查询</Button>
                 </Form.Item>
                 <Button type="primary" onClick={() => {
-
+                    history.push("/configurationDetail?mode=create");
                 }}>新建配置</Button>
             </Form>
 

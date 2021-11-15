@@ -5,3 +5,14 @@
 import '@testing-library/jest-dom'
 import '@testing-library/jest-dom/extend-expect'
 import '../jest.mocks'
+import React from 'react'
+import { render } from '@testing-library/react'
+import { BrowserRouter } from 'react-router-dom'
+
+const renderWithRouter = (ui, { route = '/' } = {}) => {
+  window.history.pushState({}, 'Test page', route)
+  // @ts-ignore
+  return render(ui, { wrapper: BrowserRouter })
+}
+
+global.renderWithRouter = renderWithRouter

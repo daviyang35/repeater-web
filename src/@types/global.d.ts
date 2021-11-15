@@ -2,6 +2,7 @@
 /// <reference types='@types/classnames' />
 
 declare global {
+
     interface Window {
         ActiveXObject: any;
         jsonlint: any;
@@ -30,6 +31,9 @@ declare type PaginatedResponse<T> = {
     pageIndex?: number;
     data?: T
 }
+
+declare let renderWithRouter = (ui: React.ReactElement<any, string | React.JSXElementConstructor<any>>, {route = "/"} = {}) => {
+};
 
 
 

@@ -1,61 +1,42 @@
 import React from "react";
-import {UnControlled as CodeMirror} from "react-codemirror2";
+import AceEditor from "react-ace";
+import styles from "./CodeBlock.module.less";
+import "ace-builds/webpack-resolver";
 
-const jsonlint = require("jsonlint-mod");
-// @ts-ignore
-window.jsonlint = jsonlint;
+import * as ace from "ace-builds/src-noconflict/ace"; // Load Ace Editor
 
-require("codemirror/lib/codemirror.css");
-require("codemirror/theme/material.css");
-require("codemirror/theme/neat.css");
-require("codemirror/mode/javascript/javascript");
-
-require("codemirror/addon/selection/active-line");
-
-require("codemirror/addon/fold/foldgutter.js");
-require("codemirror/addon/fold/foldgutter.css");
-require("codemirror/addon/fold/foldcode.js");
-require("codemirror/addon/fold/brace-fold.js");
-require("codemirror/addon/fold/comment-fold.js");
-require("codemirror/addon/edit/closebrackets");
-
-require("codemirror/addon/lint/lint");
-require("codemirror/addon/lint/lint.css");
-require("codemirror/addon/lint/json-lint");
-
-require("@/assets/css/codemirror.css");
+const CDN = "https://cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/";
+ace.config.set("basePath", CDN);
+ace.config.set("modePath", CDN);
+ace.config.set("themePath", CDN);
+ace.config.set("workerPath", CDN);
 
 export interface CodeBlockProps {
-    mode?: string,
-    lineNumber?: boolean,
-    lint?: boolean,
+    mode?: string;
     value?: string;
+    readOnly?: boolean;
+    onEditorChanged?: (value: string, event?: any) => void;
 }
 
-const CodeBlock: React.FC<CodeBlockProps> = (props: CodeBlockProps) => {
-    const currentPros = {
-        mode: "application/json",
-        theme: "material",
-        lineNumbers: true,
-        lineWrapping: true,
-        indentWithTabs: false,
-        tabSize: 2,
-        readonly: "nocursor",
-        autofocus: true,//自动获取焦点
-        styleActiveLine: true,//光标代码高亮
-        foldGutter: true,
-        gutters: ["CodeMirror-lint-markers", "CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-        autoCloseBrackets: true,
-        matchBrackets: true,
-        lint: true,
-        ...props,
-    };
-    delete currentPros.value;
-    console.log(currentPros);
+const CodeBlock: React.FC<CodeBlockProps> = (props: CodeBlockProps = {mode: "json", readOnly: false}) => {
 
-    return (<CodeMirror
-        value={props.value || ""}
-        options={currentPros}/>);
+    return (
+        <AceEditor className={styles.InputLine} mode={props.mode}
+                   theme="github"
+                   onChange={props.onEditorChanged}
+                   name="AceEditor"
+                   value={props.value || ""}
+                   editorProps={{$blockScrolling: true}}
+                   setOptions={{
+                       enableBasicAutocompletion: true,
+                       enableLiveAutocompletion: true,
+                       enableSnippets: true,
+                       tabSize: 2,
+                   }}
+                   readOnly={props.readOnly}
+                   highlightActiveLine
+                   width="100%"
+        />);
 };
 
 export default CodeBlock;

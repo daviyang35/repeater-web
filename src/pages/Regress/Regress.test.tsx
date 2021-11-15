@@ -8,12 +8,12 @@ jest.mock("./service");
 
 describe("测试页面", function () {
     it("测试页", () => {
-        render(<Regress/>);
+        const {container} = render(<Regress/>);
         expect(screen.getByText("/regress/slogan")).toBeInTheDocument();
         expect(screen.getByText("/regress/get/repeater/3")).toBeInTheDocument();
         expect(screen.getByText("/regress/getWithCache/repeater")).toBeInTheDocument();
-
-        expect(screen.getByTestId("codemirror")).toBeInTheDocument();
+        
+        expect(container.querySelector("#AceEditor")).toBeInTheDocument();
     });
 
     it("请求 slogan", async () => {

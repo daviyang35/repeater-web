@@ -27,7 +27,7 @@ const frozen = (appName: string, ip: string): Promise<any> => {
 
 const active = (appName: string, ip: string): Promise<any> => {
     return new Promise(((resolve, reject) => {
-        request.post("/module/enable", {
+        request.post("/module/active", {
             appName: appName, ip: ip,
         }).then(response => {
             resolve(response);

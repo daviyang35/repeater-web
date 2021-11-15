@@ -1,19 +1,12 @@
 import React from "react";
-import {render, screen, waitFor} from "@testing-library/react";
+import {screen, waitFor} from "@testing-library/react";
 import App from "./App";
 import Login from "@/pages/Login";
-import {BrowserRouter} from "react-router-dom";
 import accountApi from "@/services/Account";
 
 jest.mock("@/services/Account");
 jest.mock("@/pages/Login");
 jest.mock("@/utils/request");
-
-const renderWithRouter = (ui: React.ReactElement<any, string | React.JSXElementConstructor<any>>, {route = "/"} = {}) => {
-    window.history.pushState({}, "Test page", route);
-    // @ts-ignore
-    return render(ui, {wrapper: BrowserRouter});
-};
 
 describe("路由", () => {
 

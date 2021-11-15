@@ -3,6 +3,8 @@ import {render, screen, waitFor} from "@testing-library/react";
 import Configuration from "./Configuration";
 import userEvent from "@testing-library/user-event";
 import service from "./service";
+import {createHashHistory} from "history";
+import {Router} from "react-router-dom";
 
 jest.mock("./service");
 
@@ -93,6 +95,49 @@ describe("配置管理页", function () {
                 page: 1,
                 size: 10,
             });
+        });
+    });
+
+    it("点击详情按钮跳转到详情页面", async () => {
+        (service.getModuleConfig as jest.Mock).mockResolvedValueOnce({
+            success: true, data: [{
+                id: 1,
+                gmtCreate: "2021-09-14 01:37:18",
+                gmtModified: "2021-09-14 02:49:26",
+                appName: "app_verify",
+                environment: "app_env",
+            }],
+        });
+
+        const history = createHashHistory();
+        history.push = jest.fn();
+
+        render(<Router history={history}><Configuration/></Router>);
+
+        await waitFor(() => {
+            const queryButtonField = screen.getByText("详 情");
+            userEvent.click(queryButtonField);
+        });
+
+        await waitFor(() => {
+            expect(history.push).toBeCalledWith(expect.stringContaining("/configurationDetail?"));
+            expect(history.push).toBeCalledWith(expect.stringContaining("mode=preview"));
+            expect(history.push).toBeCalledWith(expect.stringContaining("appName=app_verify"));
+            expect(history.push).toBeCalledWith(expect.stringContaining("environment=app_env"));
+        });
+    });
+
+    it("点击新建配置按钮跳转到新建配置页面", async () => {
+        const history = createHashHistory();
+        history.push = jest.fn();
+
+        render(<Router history={history}><Configuration/></Router>);
+
+        const queryButtonField = screen.getByText("新建配置");
+        userEvent.click(queryButtonField);
+
+        await waitFor(() => {
+            expect(history.push).toHaveBeenCalledWith("/configurationDetail?mode=create");
         });
     });
 });

@@ -2,7 +2,7 @@ import request from "@/utils/request";
 
 const getModuleConfig = (appName: string, environment: string): Promise<any> => {
     return new Promise(((resolve, reject) => {
-        request.post("/config/detail", {
+        request.get("/config/detail", {
             appName: appName,
             environment: environment,
         }).then(response => {
