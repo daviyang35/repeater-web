@@ -3,14 +3,6 @@ import AceEditor from "react-ace";
 import styles from "./CodeBlock.module.less";
 import "ace-builds/webpack-resolver";
 
-import * as ace from "ace-builds/src-noconflict/ace"; // Load Ace Editor
-
-const CDN = "https://cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/";
-ace.config.set("basePath", CDN);
-ace.config.set("modePath", CDN);
-ace.config.set("themePath", CDN);
-ace.config.set("workerPath", CDN);
-
 export interface CodeBlockProps {
     mode?: string;
     value?: string;
