@@ -28,9 +28,31 @@ const pushConfig = (appName: string, environment: string): Promise<any> => {
     }));
 };
 
+const deleteConfig = (id: number): Promise<any> => {
+    return new Promise(((resolve, reject) => {
+        request.delete("/config/" + id).then(response => {
+            resolve(response);
+        }).catch(err => {
+            reject(err);
+        });
+    }));
+};
+
+const updateConfig = (params: any): Promise<any> => {
+    return new Promise(((resolve, reject) => {
+        request.put("/config/" + params.id).then(response => {
+            resolve(response);
+        }).catch(err => {
+            reject(err);
+        });
+    }));
+};
+
 const service = {
     getModuleConfig,
     pushConfig,
+    deleteConfig,
+    updateConfig,
 };
 
 export default service;

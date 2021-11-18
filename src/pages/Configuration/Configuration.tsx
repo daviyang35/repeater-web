@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import service, {ConfigParams} from "./service";
 import styles from "./Configuration.module.less";
-import {Button, Form, Input, message, Space, Table} from "antd";
+import {Button, Dropdown, Form, Input, Menu, message, Space, Table} from "antd";
 import {ColumnsType} from "antd/es/table";
 import {useHistory} from "react-router-dom";
+import {DownOutlined} from "@ant-design/icons";
 
 export interface Module {
     id: number,
@@ -17,24 +18,32 @@ export interface Module {
 }
 
 const Configuration: React.FC = () => {
+    const history = useHistory();
     const [queryParam, setQueryParam] = useState<ConfigParams>({page: 1, size: 10});
     const [dataSource, setDataSource] = useState([]);
 
-    useEffect(() => {
-        const fetch = async () => {
-            try {
-                const resp = await service.getModuleConfig(queryParam);
-                if (resp) {
-                    setDataSource(resp.data || []);
-                }
-            } catch (e) {
-                setDataSource([]);
+    const fetch = async () => {
+        try {
+            const resp = await service.getModuleConfig(queryParam);
+            if (resp) {
+                setDataSource(resp.data || []);
             }
-        };
+        } catch (e) {
+            setDataSource([]);
+        }
+    };
+    useEffect(() => {
         void fetch();
     }, [queryParam]);
 
-    const history = useHistory();
+    const deleteConfig = async (id: number) => {
+        const resp = await service.deleteConfig(id);
+        if (resp.success) {
+            message.info("删除成功");
+            void await fetch();
+        }
+    };
+
     const columns: ColumnsType<Module> = [
         {
             title: "应用名",
@@ -71,6 +80,19 @@ const Configuration: React.FC = () => {
                             message.info(resp.message);
                         })(record.appName, record.environment);
                     }}>推送</Button>
+                    <Dropdown overlay={() => {
+                        return (<Menu>
+                            <Menu.Item onClick={() => {
+                                history.push("/configurationDetail?mode=edit&appName=" + record.appName + "&environment=" + record.environment);
+                            }} key="edit">编辑</Menu.Item>
+                            <Menu.Divider/>
+                            <Menu.Item onClick={() => {
+                                void deleteConfig(record.id);
+                            }} danger key="remove">删除</Menu.Item>
+                        </Menu>);
+                    }} arrow={true}>
+                        <DownOutlined/>
+                    </Dropdown>
                 </Space>);
             },
         },

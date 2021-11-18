@@ -37,11 +37,21 @@ const active = (appName: string, ip: string): Promise<any> => {
     }));
 };
 
-const reload = (appName: string, ip: string): Promise<any> => {
+const reload = (appName: string, environment: string, ip: string): Promise<any> => {
     return new Promise(((resolve, reject) => {
         request.post("/module/reload", {
-            appName: appName, ip: ip,
+            appName: appName, environment: environment, ip: ip,
         }).then(response => {
+            resolve(response);
+        }).catch(err => {
+            reject(err);
+        });
+    }));
+};
+
+const del = (id: number): Promise<any> => {
+    return new Promise(((resolve, reject) => {
+        request.delete("/module/" + id).then(response => {
             resolve(response);
         }).catch(err => {
             reject(err);
@@ -65,5 +75,6 @@ const service = {
     active,
     reload,
     install,
+    del,
 };
 export default service;

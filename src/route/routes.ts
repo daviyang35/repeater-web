@@ -5,6 +5,7 @@ import {
     Module,
     Regress,
     Replay,
+    ReplayResult,
     SaveOrUpdate,
     Traffic,
     TrafficDetails,
@@ -91,6 +92,14 @@ let menus: Menu[] = [
         path: "/replay",
         icon: HeartOutlined,
         static: true,
+    }, {
+        title: "回放结果",
+        key: "result",
+        component: ReplayResult,
+        path: "/replayResult",
+        icon: HeartOutlined,
+        static: true,
+        isHide: true,
     }, {
         title: "测试页面",
         key: "test",

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Form, Input} from "antd";
+import {Button, Form, Input, message} from "antd";
 import styles from "./SaveOrUpdate.module.less";
 import {useHistory} from "react-router-dom";
 import service from "./service";
@@ -65,21 +65,95 @@ const SaveOrUpdate: React.FC = () => {
                 environment: state.environment,
             });
             void fetch();
+        } else {
+            setContentValue(JSON.stringify({
+                "degrade": false,
+                "exceptionThreshold": 1000,
+                "httpEntrancePatterns": [
+                    "^/regress/.*$",
+                ],
+                "javaEntranceBehaviors": [
+                    {
+                        "classPattern": "com.alibaba.repeater.console.service.impl.RegressServiceImpl",
+                        "includeSubClasses": false,
+                        "methodPatterns": [
+                            "getRegress",
+                        ],
+                    },
+                ],
+                "javaSubInvokeBehaviors": [
+                    {
+                        "classPattern": "com.alibaba.repeater.console.service.impl.RegressServiceImpl",
+                        "includeSubClasses": false,
+                        "methodPatterns": [
+                            "getRegressInner",
+                        ],
+                    },
+                    {
+                        "classPattern": "com.alibaba.repeater.console.service.impl.RegressServiceImpl",
+                        "includeSubClasses": false,
+                        "methodPatterns": [
+                            "findPartner",
+                        ],
+                    },
+                    {
+                        "classPattern": "com.alibaba.repeater.console.service.impl.RegressServiceImpl",
+                        "includeSubClasses": false,
+                        "methodPatterns": [
+                            "slogan",
+                        ],
+                    },
+                ],
+                "pluginIdentities": [
+                    "http",
+                    "java-entrance",
+                    "java-subInvoke",
+                    "mybatis",
+                    "ibatis",
+                    "dubbo-provider",
+                    "dubbo-consumer",
+                ],
+                "repeatIdentities": [
+                    "java",
+                    "http",
+                    "dubbo",
+                ],
+                "sampleRate": 10000,
+                "useTtl": true,
+            }, null, "\t"));
         }
     }, [state.appName, state.environment, state.isCreateMode]);
 
     const onEditorChanged = (newValue: string) => {
-        console.log("onEditorChanged:", newValue);
+        setContentValue(newValue);
     };
 
-    const onCreate = (value: any) => {
+    const onCreate = async (value: any) => {
         console.log("onCreate", value);
+        console.log("content:", contentValue);
+        const resp = await service.saveOrUpdate({
+            ...value,
+            config: contentValue,
+        });
+        if (resp.success) {
+            message.info("创建成功");
+            history.push("/configuration");
+        }
     };
 
     return (
         <div className={styles.EditorPanel}>
             <Form form={form} className={styles.InputLine} layout="inline"
-                  onFinish={onCreate}>
+                  onFinish={() => {
+                      form.validateFields()
+                          .then((values) => {
+                              form.resetFields();
+                              void onCreate(values);
+                          })
+                          .catch(err => {
+                              console.log(err);
+                          });
+                  }}>
                 <Form.Item label="应用名" name="appName" rules={state.rules}>
                     <Input readOnly={formReadOnly} autoComplete="off" placeholder="请输入应用名"/>
                 </Form.Item>
@@ -88,7 +162,11 @@ const SaveOrUpdate: React.FC = () => {
                 </Form.Item>
                 {state.isPreviewMode ||
                 <Form.Item>
-                  <Button htmlType="submit" type="primary">{state.isCreateMode ? "新增" : "更新"}</Button>
+                    {
+                        state.isCreateMode ?
+                            <Button htmlType="submit" type="primary">{"创建"}</Button> :
+                            <Button htmlType="submit" type="primary">{"更新"}</Button>
+                    }
                 </Form.Item>}
             </Form>
             <CodeBlock onEditorChanged={onEditorChanged} readOnly={contentReadOnly}

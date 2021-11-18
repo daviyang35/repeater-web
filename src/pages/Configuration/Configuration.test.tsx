@@ -61,14 +61,11 @@ describe("配置管理页", function () {
     it("条件搜索需要有应用，环境输入框和搜索按钮", async () => {
         (service.getModuleConfig as jest.Mock).mockResolvedValueOnce({success: true, data: []});
         render(<Configuration/>);
-        const AppNameField = screen.getByPlaceholderText("请输入应用名");
-        const environmentField = screen.getByPlaceholderText("请输入环境名");
-        const queryButtonField = screen.getByText("查 询");
 
         await waitFor(() => {
-            expect(AppNameField).toBeInTheDocument();
-            expect(environmentField).toBeInTheDocument();
-            expect(queryButtonField).toBeInTheDocument();
+            expect(screen.getByPlaceholderText("请输入应用名")).toBeInTheDocument();
+            expect(screen.getByPlaceholderText("请输入环境名")).toBeInTheDocument();
+            expect(screen.getByText("查 询")).toBeInTheDocument();
         });
     });
 
@@ -80,13 +77,14 @@ describe("配置管理页", function () {
 
         render(<Configuration/>);
 
-        const AppNameField = screen.getByPlaceholderText("请输入应用名");
-        const environmentField = screen.getByPlaceholderText("请输入环境名");
-        const queryButtonField = screen.getByText("查 询");
+        await waitFor(() => {
+            expect(screen.getByText("详 情")).toBeInTheDocument();
+            expect(screen.getByText("推 送")).toBeInTheDocument();
+        });
 
-        userEvent.type(AppNameField, "app");
-        userEvent.type(environmentField, "developer");
-        userEvent.click(queryButtonField);
+        userEvent.type(screen.getByPlaceholderText("请输入应用名"), "app");
+        userEvent.type(screen.getByPlaceholderText("请输入环境名"), "developer");
+        userEvent.click(screen.getByText("查 询"));
 
         await waitFor(() => {
             expect((service.getModuleConfig as jest.Mock)).toHaveBeenLastCalledWith({

@@ -75,7 +75,7 @@ const TrafficDetails = () => {
                     <Radio.Button value="response">返回结果</Radio.Button>
                     <Radio.Button value="subInvocations">子调用详情</Radio.Button>
                 </Radio.Group>
-                <CodeBlock value={codeBlock} readOnly/>
+                <CodeBlock value={codeBlock} mode="json" readOnly/>
             </div>
         </div>
     );

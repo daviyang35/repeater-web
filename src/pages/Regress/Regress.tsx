@@ -36,7 +36,7 @@ const Regress: React.FC = () => {
             }}>/regress/getWithCache/repeater</Button>
         </Space>
         <div className={styles.Title}><span>返回结果</span></div>
-        <CodeBlock data-testid="codemirror" value={codeBlock}/>
+        <CodeBlock mode="json" value={codeBlock}/>
     </div>;
 };
 

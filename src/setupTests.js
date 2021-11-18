@@ -15,4 +15,9 @@ const renderWithRouter = (ui, { route = '/' } = {}) => {
   return render(ui, { wrapper: BrowserRouter })
 }
 
+function spyOnRender (componentClass, returnValue = null) {
+  return jest.spyOn(componentClass.prototype, 'render').mockReturnValue(returnValue)
+}
+
 global.renderWithRouter = renderWithRouter
+global.spyOnRender = spyOnRender

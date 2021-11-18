@@ -34,7 +34,11 @@
     ],
     "plugins": [
       "react-hooks"
-    ]
+    ],
+    "globals": {
+      "renderWithRouter": true,
+      "spyOnRender": true
+    }
   },
   "jest": {
     "collectCoverageFrom": [

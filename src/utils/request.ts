@@ -41,6 +41,20 @@ export class Request {
             ...config,
         });
 
+    // delete 请求
+    public delete = (url: string, data: any = {}, config: AxiosRequestConfig = {}): Promise<any> =>
+        this.instance({
+            ...{url, method: "delete", data},
+            ...config,
+        });
+
+    // put 请求
+    public put = (url: string, data: any = {}, config: AxiosRequestConfig = {}): Promise<any> =>
+        this.instance({
+            ...{url, method: "put", data},
+            ...config,
+        });
+
     // 不经过统一的axios实例的get请求
     public postOnly = (url: string, data: any = {}, config: AxiosRequestConfig = {}) =>
         axios({

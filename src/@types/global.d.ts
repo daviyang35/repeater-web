@@ -14,6 +14,12 @@ declare type Pagination = {
     size: number
 }
 
+declare type RepeaterResult<T> = {
+    success: boolean;
+    message?: string;
+    data?: T;
+}
+
 declare type PageResult<T> = {
     success: boolean,
     message?: string,
@@ -33,6 +39,9 @@ declare type PaginatedResponse<T> = {
 }
 
 declare let renderWithRouter = (ui: React.ReactElement<any, string | React.JSXElementConstructor<any>>, {route = "/"} = {}) => {
+};
+
+declare let spyOnRender = () => {
 };
 
 

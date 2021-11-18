@@ -6,30 +6,6 @@ import {ColumnsType} from "antd/es/table";
 import {TablePaginationConfig} from "antd/lib/table/interface";
 import InstallModal, {InstallModalParams} from "@/pages/Module/InstallModal/InstallModal";
 
-const doFrozen = async (appName: string, ip: string) => {
-    const resp = await service.frozen(appName, ip);
-    Modal.error({
-        title: "结果",
-        content: resp.message,
-    });
-};
-
-const doActive = async (appName: string, ip: string) => {
-    const resp = await service.active(appName, ip);
-    Modal.error({
-        title: "结果",
-        content: resp.message,
-    });
-};
-
-const doReload = async (appName: string, ip: string) => {
-    const resp = await service.reload(appName, ip);
-    Modal.error({
-        content: resp.message,
-        title: "结果",
-    });
-};
-
 const doInstall = async (params: InstallModalParams) => {
     try {
         const resp = await service.install(params);
@@ -42,83 +18,123 @@ const doInstall = async (params: InstallModalParams) => {
     }
 };
 
-
-const columns: ColumnsType<any> = [
-    {
-        title: "应用名",
-        dataIndex: "appName",
-        key: "appName",
-    }, {
-        title: "环境",
-        dataIndex: "environment",
-        key: "environment",
-    }, {
-        title: "机器IP",
-        dataIndex: "ip",
-        key: "ip",
-    }, {
-        title: "端口",
-        dataIndex: "port",
-        key: "port",
-    }, {
-        title: "版本号",
-        dataIndex: "version",
-        key: "version",
-    }, {
-        title: "状态",
-        dataIndex: "status",
-        key: "status",
-        width: 80,
-        render: (status: string) => (
-            <Button type="primary" ghost shape="round" size="small"
-                    danger={status === "FROZEN"}>{status === "ACTIVE" ? "已激活" : "未激活"}</Button>),
-    }, {
-        title: "心跳时间",
-        dataIndex: "gmtModified",
-        key: "gmtModified",
-    }, {
-        title: "操作",
-        dataIndex: "action",
-        key: "action",
-        render: (_, record) => {
-            const isFrozen = record.status === "FROZEN";
-
-            return (<Space className={styles.ActionPanel}>
-                {isFrozen ?
-                    <Button type={"primary"} size="small" onClick={() => {
-                        void doActive(record.appName, record.ip);
-                    }}>激活</Button>
-                    :
-                    <Button type={"primary"} size="small" danger onClick={() => {
-                        void doFrozen(record.appName, record.ip);
-                    }}>冻结</Button>
-                }
-                <Button type={"ghost"} size="small" onClick={() => {
-                    void doReload(record.appName, record.ip);
-                }}>刷新</Button>
-            </Space>);
-        },
-    },
-];
-
 const Module: React.FC = () => {
     const [queryParam, setQueryParam] = useState<ModuleParams>({page: 1, size: 10});
     const [dataSources, setDataSources] = useState([]);
     const [pagination, setPagination] = useState<{ total: number, page: number }>({page: 0, total: 0});
     const [showInstallModal, setShowInstallModal] = useState(false);
 
-    useEffect(() => {
-        const getModule = async () => {
-            const resp = await service.getModule(queryParam);
-            setDataSources(resp.data);
-            setPagination({
-                page: resp.pageIndex,
-                total: resp.count,
-            });
-        };
+    const fetchData = async () => {
+        const resp = await service.getModule(queryParam);
+        setDataSources(resp.data);
+        setPagination({
+            page: resp.pageIndex,
+            total: resp.count,
+        });
+    };
 
-        void getModule();
+    useEffect(() => {
+        void fetchData();
     }, [queryParam]);
+
+    const doDelete = async (id: number) => {
+        const resp = await service.del(id);
+        if (resp.success) {
+            message.info("删除成功");
+            void await fetchData();
+            return;
+        }
+
+        message.warning(resp.message);
+    };
+
+    const doFrozen = async (appName: string, ip: string) => {
+        const resp = await service.frozen(appName, ip);
+        Modal.error({
+            title: "结果",
+            content: resp.message,
+        });
+        void await fetchData();
+    };
+
+    const doActive = async (appName: string, ip: string) => {
+        const resp = await service.active(appName, ip);
+        Modal.error({
+            title: "结果",
+            content: resp.message,
+        });
+        void await fetchData();
+    };
+
+    const doReload = async (appName: string, environment: string, ip: string) => {
+        const resp = await service.reload(appName, environment, ip);
+        Modal.error({
+            content: resp.message,
+            title: "结果",
+        });
+        void await fetchData();
+    };
+
+    const columns: ColumnsType<any> = [
+        {
+            title: "应用名",
+            dataIndex: "appName",
+            key: "appName",
+        }, {
+            title: "环境",
+            dataIndex: "environment",
+            key: "environment",
+        }, {
+            title: "机器IP",
+            dataIndex: "ip",
+            key: "ip",
+        }, {
+            title: "端口",
+            dataIndex: "port",
+            key: "port",
+        }, {
+            title: "版本号",
+            dataIndex: "version",
+            key: "version",
+        }, {
+            title: "状态",
+            dataIndex: "status",
+            key: "status",
+            width: 80,
+            render: (status: string) => (
+                <Button type="primary" ghost shape="round" size="small"
+                        danger={status === "FROZEN"}>{status === "ACTIVE" ? "已激活" : "未激活"}</Button>),
+        }, {
+            title: "心跳时间",
+            dataIndex: "gmtModified",
+            key: "gmtModified",
+        }, {
+            title: "操作",
+            dataIndex: "action",
+            key: "action",
+            render: (_, record) => {
+                const isFrozen = record.status === "FROZEN";
+
+                return (<Space className={styles.ActionPanel}>
+                    {isFrozen ?
+                        <Button type={"primary"} size="small" onClick={() => {
+                            void doActive(record.appName, record.ip);
+                        }}>激活</Button>
+                        :
+                        <Button type={"primary"} size="small" danger onClick={() => {
+                            void doFrozen(record.appName, record.ip);
+                        }}>冻结</Button>
+                    }
+                    <Button type={"ghost"} size="small" onClick={() => {
+                        void doReload(record.appName, record.environment, record.ip);
+                    }}>刷新</Button>
+                    <Button type={"ghost"} size="small" onClick={() => {
+                        void doDelete(record.id);
+                    }}>删除</Button>
+                </Space>);
+            },
+        },
+    ];
 
     const paginationProps: TablePaginationConfig = {
         total: pagination.total,

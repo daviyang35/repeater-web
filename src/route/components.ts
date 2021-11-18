@@ -11,7 +11,9 @@ import TrafficDetails from "@/pages/Traffic/TrafficDetails";
 import Configuration from "@/pages/Configuration";
 import SaveOrUpdate from "@/pages/Configuration/SaveOrUpdate";
 
+// 回放
 import Replay from "@/pages/Replay";
+import ReplayResult from "@/pages/ReplayResult";
 
 // 测试页
 import Regress from "@/pages/Regress";
@@ -29,4 +31,5 @@ export {
     SaveOrUpdate,
     Regress,
     Replay,
+    ReplayResult,
 };

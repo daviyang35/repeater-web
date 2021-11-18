@@ -5,12 +5,15 @@ import {ColumnsType} from "antd/es/table";
 import repeaterApi, {TrafficItem} from "@/services/Repeater";
 import {useHistory} from "react-router-dom";
 import {TablePaginationConfig} from "antd/lib/table/interface";
+import ReplayModal from "@/pages/Traffic/ReplayModal";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Traffic = () => {
     const [dataSource, setDataSource] = useState<TrafficItem[]>([]);
     const [total, setTotal] = useState<number>(0);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalProps, setModalProps] = useState({appName: "", traceId: ""});
 
     useEffect(() => {
         const getTrafficList = async () => {
@@ -34,10 +37,6 @@ const Traffic = () => {
 
     const detailClicked = (traceId: string, appName: string) => {
         history.push("/trafficDetails?id=" + traceId + "&appName=" + appName);
-    };
-
-    const playbackClicked = () => {
-        void message.info("你点了回放");
     };
 
     const columns: ColumnsType<TrafficItem> = [{
@@ -75,7 +74,8 @@ const Traffic = () => {
                     detailClicked(record.traceId, record.appName);
                 }}>详情</Button>
                 <Button type={"primary"} size="small" danger onClick={() => {
-                    playbackClicked();
+                    setModalProps({appName: record.appName, traceId: record.traceId});
+                    setModalVisible(true);
                 }}>回放</Button>
             </div>);
         },
@@ -94,6 +94,10 @@ const Traffic = () => {
 
     return (
         <div className={styles.TrafficPanel}>
+            <ReplayModal onReplay={() => {
+            }} onCancel={() => {
+                setModalVisible(false);
+            }} appName={modalProps.appName} traceId={modalProps.traceId} visible={modalVisible}/>
             <Table columns={columns} dataSource={dataSource} pagination={pagination} rowKey={record => record.id}/>
         </div>
     );
