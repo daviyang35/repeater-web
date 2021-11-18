@@ -54,7 +54,7 @@ const TrafficDetails = () => {
 
     return (
         <div className={styles.DetailsPanel}>
-            <Descriptions title="基础信息" size="middle" bordered extra={<Button type="primary" onClick={() => {
+            <Descriptions title="基础信息" size="small" bordered extra={<Button type="primary" onClick={() => {
                 history.push("/traffic");
             }}>返回列表</Button>}>
                 <Descriptions.Item label="应用名" span={1}>{record.appName}</Descriptions.Item>
