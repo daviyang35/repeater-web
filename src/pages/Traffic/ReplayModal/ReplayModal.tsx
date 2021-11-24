@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Form, message, Modal, Select, Switch} from "antd";
 import service, {ExecuteReplayParams, ModuleInfo} from "./service";
+import {useHistory} from "react-router-dom";
 
 export interface ReplayModalParams {
 
@@ -24,7 +25,7 @@ const ReplayModal: React.FC<ReplayModalProps> = ({appName, traceId, visible, onC
                 console.log("修复因路由导致的非预期执行");
                 return;
             }
-            const resp = await service.replayServer(appName as string);
+            const resp = await service.replayServer(appName!);
             if (!resp.success) {
                 message.warn("拉取在线回放列表失败：" + resp.message);
                 return;
@@ -34,6 +35,14 @@ const ReplayModal: React.FC<ReplayModalProps> = ({appName, traceId, visible, onC
         };
         void fetch();
     }, [appName]);
+
+    const history = useHistory();
+
+    const closeModal = () => {
+        if (onCancel) {
+            onCancel();
+        }
+    };
 
     const doTheReplay = async (module: ModuleInfo, mock: boolean) => {
         const replayParams: ExecuteReplayParams = {
@@ -47,7 +56,14 @@ const ReplayModal: React.FC<ReplayModalProps> = ({appName, traceId, visible, onC
         console.log(resp);
 
         if (resp.success) {
-            message.info("回放执行完成");
+            closeModal();
+
+            Modal.confirm({
+                content: "回放执行成功，立即查看详情？",
+                onOk: () => {
+                    history.push("/replayResult?appName=" + appName + "&repeatId=" + resp.data);
+                },
+            });
             return;
         }
 

@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from "react";
 import styles from "./Replay.module.less";
-import {Button, Table} from "antd";
+import {Button, Table, Tag} from "antd";
 import {ColumnsType} from "antd/lib/table";
 import service, {ReplayParams, ReplayVO} from "./service";
 import {useHistory} from "react-router-dom";
+import {TablePaginationConfig} from "antd/lib/table/interface";
 
 const Replay: React.FC = () => {
     const history = useHistory();
     const [queryParams, setQueryParams] = useState<ReplayParams>({page: 1, size: 10});
+    const [totalRecords, setTotalRecords] = useState(0);
     const [dataSource, setDataSource] = useState<ReplayVO[]>([]);
 
     const columns: ColumnsType<ReplayVO> = [
@@ -37,20 +39,23 @@ const Replay: React.FC = () => {
             key: "status",
             render: (_, record) => {
                 let label = "未知";
+                let color = "default";
                 switch (record.status) {
                     case "PROCESSING":
                         label = "执行中";
+                        color = "processing";
                         break;
                     case "FAILED":
                         label = "已失败";
+                        color = "error";
                         break;
                     case "FINISH":
                         label = "已完成";
+                        color = "success";
                         break;
                 }
                 return (
-                    <Button type="primary" ghost shape="round" size="small"
-                            danger={record.status === "FAILED"}>{label}</Button>);
+                    <Tag color={color}>{label}</Tag>);
             },
         }, {
             title: "操作",
@@ -67,22 +72,34 @@ const Replay: React.FC = () => {
         },
     ];
 
+    const paginationProps: TablePaginationConfig = {
+        total: totalRecords,
+        current: queryParams.page,
+        pageSize: queryParams.size,
+        showTotal: (total) => `共 ${total} 条`,
+        showQuickJumper: true,
+        onChange: (page, pageSize) => setQueryParams({...queryParams, size: pageSize || 1, page}),
+    };
+
     useEffect(() => {
         const fetch = async () => {
             try {
                 const resp = await service.replay(queryParams);
                 if (resp.success) {
                     setDataSource(resp.data || []);
+                    setTotalRecords(resp.count!);
                 }
             } catch (e) {
                 setDataSource([]);
+                console.log(e);
             }
         };
         void fetch();
     }, [queryParams]);
 
     return (<div className={styles.Panel}>
-        <Table size="small" rowKey={(record) => record.repeatId} columns={columns} dataSource={dataSource}/>
+        <Table size="small" pagination={paginationProps} rowKey={(record) => record.repeatId} columns={columns}
+               dataSource={dataSource}/>
     </div>);
 };
 

@@ -4,6 +4,8 @@ import styles from "./SaveOrUpdate.module.less";
 import {useHistory} from "react-router-dom";
 import service from "./service";
 import CodeBlock from "@/components/CodeBlock";
+import template from "./template";
+
 
 const SaveOrUpdate: React.FC = () => {
     let history = useHistory();
@@ -66,63 +68,9 @@ const SaveOrUpdate: React.FC = () => {
             });
             void fetch();
         } else {
-            setContentValue(JSON.stringify({
-                "degrade": false,
-                "exceptionThreshold": 1000,
-                "httpEntrancePatterns": [
-                    "^/regress/.*$",
-                ],
-                "javaEntranceBehaviors": [
-                    {
-                        "classPattern": "com.alibaba.repeater.console.service.impl.RegressServiceImpl",
-                        "includeSubClasses": false,
-                        "methodPatterns": [
-                            "getRegress",
-                        ],
-                    },
-                ],
-                "javaSubInvokeBehaviors": [
-                    {
-                        "classPattern": "com.alibaba.repeater.console.service.impl.RegressServiceImpl",
-                        "includeSubClasses": false,
-                        "methodPatterns": [
-                            "getRegressInner",
-                        ],
-                    },
-                    {
-                        "classPattern": "com.alibaba.repeater.console.service.impl.RegressServiceImpl",
-                        "includeSubClasses": false,
-                        "methodPatterns": [
-                            "findPartner",
-                        ],
-                    },
-                    {
-                        "classPattern": "com.alibaba.repeater.console.service.impl.RegressServiceImpl",
-                        "includeSubClasses": false,
-                        "methodPatterns": [
-                            "slogan",
-                        ],
-                    },
-                ],
-                "pluginIdentities": [
-                    "http",
-                    "java-entrance",
-                    "java-subInvoke",
-                    "mybatis",
-                    "ibatis",
-                    "dubbo-provider",
-                    "dubbo-consumer",
-                ],
-                "repeatIdentities": [
-                    "java",
-                    "http",
-                    "dubbo",
-                ],
-                "sampleRate": 10000,
-                "useTtl": true,
-            }, null, "\t"));
+            setContentValue(JSON.stringify(template, null, "\t"));
         }
-    }, [state.appName, state.environment, state.isCreateMode]);
+    }, [state.appName, state.environment, state.isCreateMode]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const onEditorChanged = (newValue: string) => {
         setContentValue(newValue);

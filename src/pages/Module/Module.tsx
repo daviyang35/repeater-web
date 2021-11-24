@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from "./Module.module.less";
 import service, {ModuleParams} from "./service";
-import {Button, Form, Input, message, Modal, Space, Table} from "antd";
+import {Button, Form, Input, message, Modal, Space, Table, Tag} from "antd";
 import {ColumnsType} from "antd/es/table";
 import {TablePaginationConfig} from "antd/lib/table/interface";
 import InstallModal, {InstallModalParams} from "@/pages/Module/InstallModal/InstallModal";
@@ -35,7 +35,7 @@ const Module: React.FC = () => {
 
     useEffect(() => {
         void fetchData();
-    }, [queryParam]);
+    }, [queryParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const doDelete = async (id: number) => {
         const resp = await service.del(id);
@@ -102,8 +102,7 @@ const Module: React.FC = () => {
             key: "status",
             width: 80,
             render: (status: string) => (
-                <Button type="primary" ghost shape="round" size="small"
-                        danger={status === "FROZEN"}>{status === "ACTIVE" ? "已激活" : "未激活"}</Button>),
+                <Tag color={status === "ACTIVE" ? "success" : "error"}>{status === "ACTIVE" ? "已激活" : "未激活"}</Tag>),
         }, {
             title: "心跳时间",
             dataIndex: "gmtModified",

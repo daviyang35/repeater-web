@@ -4,6 +4,7 @@ import styles from "./TrafficDetails.module.less";
 import {useHistory} from "react-router-dom";
 import {getTrafficDetails} from "@/pages/Traffic/TrafficDetails/service";
 import CodeBlock from "@/components/CodeBlock/CodeBlock";
+import ReplayModal from "@/pages/Traffic/ReplayModal";
 
 type Details = {
     id?: number;
@@ -28,6 +29,7 @@ const TrafficDetails = () => {
     const [record, setRecord] = useState<Details>({});
     const [codeBlock, setCodeBlock] = useState("");
     const [currentKey, setCurrentKey] = useState<string>("request");
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         const fetch = async () => {
@@ -54,9 +56,13 @@ const TrafficDetails = () => {
 
     return (
         <div className={styles.DetailsPanel}>
-            <Descriptions title="基础信息" size="small" bordered extra={<Button type="primary" onClick={() => {
+            <Descriptions title="基础信息" size="small" bordered extra={<div>
+                <Button type="primary" danger onClick={() => {
+                    setModalVisible(true);
+                }}>回放</Button> <Button type="primary" onClick={() => {
                 history.push("/traffic");
-            }}>返回列表</Button>}>
+            }}>返回列表</Button>
+            </div>}>
                 <Descriptions.Item label="应用名" span={1}>{record.appName}</Descriptions.Item>
                 <Descriptions.Item label="流量入口" span={1}>{record.entranceDesc}</Descriptions.Item>
                 <Descriptions.Item label="录制机器" span={1}>{record.host}</Descriptions.Item>
@@ -64,6 +70,7 @@ const TrafficDetails = () => {
                 <Descriptions.Item label="录制时间" span={1}>{record.gmtRecord}</Descriptions.Item>
                 <Descriptions.Item label="录制环境" span={1}>{record.environment}</Descriptions.Item>
             </Descriptions>
+
             <Divider/>
             <div>
                 <p className={styles.DetailsTitle}>调用信息</p>
@@ -77,6 +84,10 @@ const TrafficDetails = () => {
                 </Radio.Group>
                 <CodeBlock value={codeBlock} mode="json" readOnly/>
             </div>
+            <ReplayModal onReplay={() => {
+            }} onCancel={() => {
+                setModalVisible(false);
+            }} appName={appName!} traceId={id!} visible={modalVisible}/>
         </div>
     );
 };

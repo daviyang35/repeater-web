@@ -34,7 +34,7 @@ const Configuration: React.FC = () => {
     };
     useEffect(() => {
         void fetch();
-    }, [queryParam]);
+    }, [queryParam]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const deleteConfig = async (id: number) => {
         const resp = await service.deleteConfig(id);

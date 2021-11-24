@@ -30,7 +30,7 @@ export interface ExecuteReplayParams {
     ip: string;
 }
 
-const executeReplay = (params: ExecuteReplayParams): Promise<PageResult<ModuleInfo>> => {
+const executeReplay = (params: ExecuteReplayParams): Promise<RepeaterResult<string>> => {
     return new Promise(((resolve, reject) => {
         request.post("/replay/execute", params).then(response => {
             resolve(response);
