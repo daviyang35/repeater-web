@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ReplayResult.module.less";
-import {Descriptions, Divider, Radio, Table, Tag} from "antd";
+import {Descriptions, Divider, message, Radio, Table, Tag} from "antd";
 import service, {DifferenceBO, MockInvocationBO, ReplayResultVO} from "./service";
 import {useHistory} from "react-router-dom";
 import CodeBlock from "@/components/CodeBlock";
@@ -35,10 +35,16 @@ const ReplayResult: React.FC = () => {
         const fetch = async () => {
             if (appName && repeatId) {
                 const resp = await service.replayResult({appName: appName!, repeatId: repeatId!});
+                if (!resp.success) {
+                    message.error("获取回放结果失败:" + resp.message);
+                    return;
+                }
+
                 setDataSource(resp.data);
-                setDiffValues([resp.data?.record?.response!, resp.data?.response!]);
+                setDiffValues([resp.data?.record?.response!, resp.data?.response! || ""]);
                 setExpectDataSources(resp.data?.differences);
                 setMockDataSources(resp.data?.mockInvocations);
+
             } else {
                 console.log("因路由意外触发，跳过fetch");
             }

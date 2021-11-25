@@ -99,7 +99,7 @@ const ReplayModal: React.FC<ReplayModalProps> = ({appName, traceId, visible, onC
                         }
                     </Select>
                 </Form.Item>
-                <Form.Item name="mock" label="MOCK" valuePropName="checked">
+                <Form.Item name="mock" label="MOCK" initialValue={true} valuePropName="checked">
                     <Switch/>
                 </Form.Item>
             </Form>
