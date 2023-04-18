@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import styles from "./Traffic.module.less";
 import {Button, message, Table} from "antd";
 import {ColumnsType} from "antd/es/table";
@@ -15,7 +15,7 @@ const Traffic = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalProps, setModalProps] = useState({appName: "", traceId: ""});
-    const getTrafficList = async () => {
+    const getTrafficList = useCallback( async () => {
         try {
             let repeaterResp = await repeaterApi.getOnline(currentPage);
             if (!repeaterResp.success) {
@@ -27,11 +27,12 @@ const Traffic = () => {
         } catch (e) {
             message.error("发生了错误");
         }
-    }
+    },[currentPage]);
 
     useEffect(() => {
-        void getTrafficList();
-        },[currentPage]);
+        getTrafficList().then(r => {}); // todo
+    },[currentPage,getTrafficList]);
+
 
     let history = useHistory();
 
